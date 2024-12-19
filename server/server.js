@@ -34,12 +34,37 @@ app.post("/User/:Email", (req, res) => {
             res.status(500).send(err);
         })
 });
+app.post("/User/:Email/:VerificationCode",(req,res)=>{
+  const body=req.body;
+  db.sendEmail(body)
+  .then(data=>{
+    res.send(data);
+  })
+  .catch(err=>{
+    res.status(500).send(err);
+  })
+})
 
+// app.get("/User/:Email/pass", (req, res) => {
+//     const Email  = req.params.Email;
+
+//     if(Email){
+//         db.checkAndGet(Email)
+//         .then(data => {
+//             res.send(data);
+//         })
+//         .catch(err => {
+//             res.status(500).send(err);
+//         })
+
+//     }
+    
+// });
 app.get("/User/:Email", (req, res) => {
     const Email  = req.params.Email;
 
     if(Email){
-        db.checkAndGet(Email)
+        db.checkAndGetData(Email)
         .then(data => {
             res.send(data);
         })
@@ -66,21 +91,21 @@ app.get("/User/:Email", (req, res) => {
 //         })
 
 // });
-app.get("/notes/:title", (req, res) => {
-    const { title } = req.params;
-    db.getNoteByTitle(title)
-        .then(data => {
-            if (!data) {
-                res.status(404).send("Note not found");
-            } else {
-                res.send(data);
-            }
-        })
-        .catch(err => {
-            res.status(500).send(err);
-        })
+// app.get("/notes/:title", (req, res) => {
+//     const { title } = req.params;
+//     db.getNoteByTitle(title)
+//         .then(data => {
+//             if (!data) {
+//                 res.status(404).send("Note not found");
+//             } else {
+//                 res.send(data);
+//             }
+//         })
+//         .catch(err => {
+//             res.status(500).send(err);
+//         })
 
-});
+// });
 app.put("/User", (req, res) => {
 
     db.updateUser(req.body)
@@ -112,7 +137,40 @@ app.put("/User", (req, res) => {
 
 // });
 
+
+// const nodeMailer = require("nodemailer");
+// const Transporter = nodeMailer.createTransport({
+//   port: 587, // Correct property name
+//   host: "smtp.gmail.com",
+//   secure: false, 
+//   auth :{
+//     user : "waelalmallah7@gmail.com",
+//     pass : 'sgkk nxmf vbcr iuvj',
+//   },
+//   tls: {
+//     rejectUnauthorized: false
+//   },
+//   connectionTimeout : 5000,
+//   greetingTimeout : 3000
+// });
+
+// var message = {
+//   from: "waelalmallah7@gmail.com", // Correct property name
+//   to: "waelalmallah003@gmail.com",
+//   subject: "Hello from Node.js",
+//   text: "Hello from Node.js ",
+// };
+
+// Transporter.sendMail(message, (error, info) => {
+//   if (error) {
+//     console.log(error + " error happened");
+//   } else {
+//     console.log("Email sent: " + info.response); // Log the response from the email server
+//   }
+// });
+
 app.listen(port, () => {
-    console.log(`Started node server and listening to port ${port}`);
-    db.connect();
+  console.log(`Started node server and listening to port ${port}`);
+  db.connect();
 });
+
