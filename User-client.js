@@ -9,6 +9,15 @@ async function addUser(user) {
     return response;
 
 }
+async function sendVerificationCode(params) {
+    const response = await fetch(`${urlBase}/User/${params.Email}/${params.VerificationCode}`,{
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(params)
+
+    });
+    return response;
+}
 async function checkUserPassAndEmail(user) {
     const response = await fetch(`${urlBase}/User/${user["Email"]}`, {
         method: "POST",
@@ -35,15 +44,15 @@ async function updateUser(user) {
 //     return response;
 
 // }
-async function getPasswordByEmail(emailUser) {
-    let url = `${urlBase}/User/${emailUser}`;
-    let response = await fetch(url, {
-        method: "GET"
-    });
-    return response.json();
+// async function getPasswordByEmail(emailUser) {
+//     let url = `${urlBase}/User/${emailUser}/pass`;
+//     let response = await fetch(url, {
+//         method: "GET"
+//     });
+//     return response.json();
 
-}
-async function getEmail(Email) {
+// }
+async function checkEmailAndGetData(Email) {
     let url = `${urlBase}/User/${Email}`;
     let response = await fetch(url, {
         method: "GET"
@@ -51,3 +60,10 @@ async function getEmail(Email) {
     return response.json();
 
 }
+// async function checkUserInfo(params) {
+//     const response = await fetch(`${urlBase}/User/${params["Email"]}/${params["Password"]}`, {
+//         method: "GET",
+    
+// });
+// return response.json();
+// }
