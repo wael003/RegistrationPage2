@@ -8,7 +8,7 @@ function login() {
             if (data.ok) {
                 document.getElementById("loginError").style.color = "#4CAF50";
                 document.getElementById("loginError").innerHTML = "correct!";
-                // window.location.href = "home.html";
+                window.location.href = "../Home/traveler/traveler/index.html";
             }
             else {
                 document.getElementById("loginError").style.color = "red";
@@ -25,30 +25,31 @@ let Enteredemail;
 
 function checkEmail() {
     Enteredemail = document.getElementById("forgotEmail").value;
-    getEmail(Enteredemail)
+    checkEmailAndGetData(Enteredemail)
         .then(data => {
 
 
             VerificationNumber = generateRandomCode();
 
-            var userScheme = { UserName: data.UserName, Email: data.Email, Password: data.Password, VerificationCode: VerificationNumber };
-            updateUser(userScheme)
+            var userModal = { UserName: data.UserName, Email: data.Email, VerificationCode: VerificationNumber };
+            sendVerificationCode(userModal)
                 .then(data => {
                     if (data.ok) {
-                        document.getElementById("VerficationError").innerHTML = "Fill in the Verification Code!";
+                        document.getElementById("VerficationError").innerHTML = "Fill in the verification code we sent to your email!";
                     } else {
-                        document.getElementById("VerficationError").innerHTML = "Send Faild";
+                        document.getElementById("VerficationError").innerHTML = "Send Faild , please try again! ";
                     }
                 })
                 .catch(err => {
                     console.log(err);
                 })
-            //API
+            
 
 
             document.getElementById('forgotPasswordModal').style.display = 'none';
             document.getElementById('forgotEmail').value = ''; // Clear the input
             document.getElementById("VerificationPasswordModal").style.display = "block";
+            document.getElementById("Verifiaction").value = "";
 
 
 
